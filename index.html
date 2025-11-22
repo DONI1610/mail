@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gmail Viewer</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f3f7;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    .email-card {
+      background: #fff;
+      padding: 15px;
+      margin: 10px 0;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .subject {
+      font-size: 18px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    .from {
+      margin-top: 5px;
+      color: #555;
+    }
+
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 12px 20px;
+      border: none;
+      background: #4285f4;
+      color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #2f6fe0;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>📧 Gmail Viewer</h1>
+
+  <button onclick="loadEmails()">Tải Email</button>
+
+  <div id="emailList"></div>
+
+  <script>
+    async function loadEmails() {
+      const url = "https://script.google.com/macros/s/AKfycbxQ6V204pmUMYbMnfjNfxD3oGDB5VG_jA2GoGleREIls3aved2jSlLW06iSWMquKwYX_Q/exec"; // <--- dán link Web App Apps Script của bạn
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      const container = document.getElementById("emailList");
+      container.innerHTML = "";
+
+      data.forEach(email => {
+        const div = document.createElement("div");
+        div.className = "email-card";
+
+        div.innerHTML = `
+          <div class="subject">${email.subject}</div>
+          <div class="from">📨 ${email.from}</div>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
